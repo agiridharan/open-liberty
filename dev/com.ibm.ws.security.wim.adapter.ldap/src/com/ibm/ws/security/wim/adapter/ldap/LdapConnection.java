@@ -44,6 +44,7 @@ import static com.ibm.websphere.security.wim.ConfigConstants.CONFIG_REUSE_CONNEC
 import static com.ibm.websphere.security.wim.ConfigConstants.SEARCH_CACHE_CONFIG;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -405,9 +406,14 @@ public class LdapConnection {
         iContextManager.setConnectTimeout((Long) configProps.get(CONFIG_PROP_CONNECT_TIMEOUT));
 
         /*
-         * Set the connection timeout.
+         * Set the read timeout.
          */
         iContextManager.setReadTimeout((Long) configProps.get(CONFIG_PROP_READ_TIMEOUT));
+
+        /*
+         * Set the JNDI BER trace location
+         */
+        iContextManager.setBerTraceLocation((OutputStream) configProps.get(CONFIG_PROP_BER_TRACE_LOCATION));
 
         /*
          * Determine referral handling behavior. Initially the attribute was spelled missing an 'r' so

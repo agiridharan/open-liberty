@@ -11,6 +11,9 @@
 
 package com.ibm.websphere.simplicity.config.wim;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
@@ -45,6 +48,7 @@ public class LdapRegistry extends ConfigElement {
     private LdapFilters idsFilters;
     private Boolean ignoreCase;
     private LdapFilters iplanetFilters;
+    private OutputStream jndiBerOutputFile;
     private LdapCache ldapCache;
     private ConfigElementList<LdapEntityType> ldapEntityTypes;
     private String ldapType;
@@ -205,6 +209,13 @@ public class LdapRegistry extends ConfigElement {
      */
     public LdapFilters getIplanetFilters() {
         return iplanetFilters;
+    }
+
+    /*
+     * @return the jndiBerOutputFile;
+     */
+    private OutputStream getJndiBerOutputFile() {
+        return jndiBerOutputFile;
     }
 
     /**
@@ -515,6 +526,14 @@ public class LdapRegistry extends ConfigElement {
     @XmlElement(name = "iplanetFilters")
     public void setIplanetFilters(LdapFilters iplanetFilters) {
         this.iplanetFilters = iplanetFilters;
+    }
+
+    /*
+     * @param the jndiBerOutputFile;
+     */
+    @XmlElement(name = "jndiBerOutputFile")
+    private void setJndiBerOutputFile(FileOutputStream jndiBerOutputFile) {
+        this.jndiBerOutputFile = jndiBerOutputFile;
     }
 
     /**

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.ibm.ws.security.wim.adapter.ldap.context;
 
+import java.io.OutputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
@@ -117,6 +118,9 @@ public class ContextManager {
     /** JNDI property for read timeout setting. */
     private static final String LDAP_ENV_PROP_READ_TIMEOUT = "com.sun.jndi.ldap.read.timeout";
 
+    /** JNDI property for jndi trace setting. */
+    private static final String LDAP_ENV_PROP_BER_TRACE = "com.sun.jndi.ldap.trace.ber";
+
     /** Timestamp of quick bind statistics trace. */
     private static final AtomicLong LDAP_STATS_TIMER = new AtomicLong(0);
 
@@ -145,6 +149,9 @@ public class ContextManager {
 
     /** The name of WAS SSL Socket factory class. */
     private static final String WAS_SSL_SOCKET_FACTORY = "com.ibm.ws.ssl.protocol.LibertySSLSocketFactory";
+
+    /** The location of the LDAP ASN.1 BER packet dumps **/
+    private OutputStream iBerTraceLocation;
 
     /** The names of all binary attributes, each separated by a space. */
     private String iBinaryAttributeNames;
@@ -1057,6 +1064,12 @@ public class ContextManager {
         }
 
         /*
+         * Set the location of the LDAP ASN.1 BER packet dump
+         */
+        if (iBerTraceLocation != null) {
+            iEnvironment.put(LDAP_ENV_PROP_BER_TRACE, iBerTraceLocation);
+        }
+        /*
          * TODO Support different authentication mechanisms.
          *
          * String authen = (String) configProps.get(ConfigConstants.CONFIG_PROP_AUTHENTICATION);
@@ -1318,6 +1331,15 @@ public class ContextManager {
     }
 
     /**
+     * Set the LDAP ASN.1 BER packet output location.
+     *
+     * @param readTimeout The location where the LDAP ASN.1 BER Packets will be dumped. Can be system.out
+     */
+    public void setBerTraceLocation(OutputStream location) {
+        this.iBerTraceLocation = location;
+    }
+
+    /**
      * Set the binary attribute names.
      *
      * @param binaryAttributeNames The names of all binary attributes, each separated by a space.
@@ -1527,6 +1549,7 @@ public class ContextManager {
         sb.append(", iReturnToPrimary=").append(iReturnToPrimary);
         sb.append(", iReferral=").append(iReferral);
         sb.append(", iBinaryAttributeNames=").append(iBinaryAttributeNames);
+        sb.append(", iBerTraceLocation=").append(iBerTraceLocation);
         sb.append("}");
 
         return sb.toString();

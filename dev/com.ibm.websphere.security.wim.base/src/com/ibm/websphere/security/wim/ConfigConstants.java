@@ -403,6 +403,11 @@ public interface ConfigConstants {
     String CONFIG_PROP_READ_TIMEOUT = "readTimeout";
 
     /**
+     * Define how long will LDAP adapter aborts the read attempt if the connection cannot be established.
+     */
+    String CONFIG_PROP_BER_TRACE_LOCATION = "jndiBerOutput";
+
+    /**
      * Define whether or not write operations are allowed on secondary servers.
      * default value is false.
      */
